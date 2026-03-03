@@ -1,8 +1,9 @@
 import asyncio
 import os
 import sys
+import time
 
-from anthropic import Anthropic
+from anthropic import Anthropic, OverloadedError
 from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -67,13 +68,22 @@ async def run() -> int:
 
             # Agentic loop
             while True:
-                response = anthropic.messages.create(
-                    model="claude-sonnet-4-6",
-                    max_tokens=4096,
-                    system=system,
-                    tools=tools,
-                    messages=messages,
-                )
+                for attempt in range(3):
+                    try:
+                        response = anthropic.messages.create(
+                            model="claude-sonnet-4-6",
+                            max_tokens=4096,
+                            system=system,
+                            tools=tools,
+                            messages=messages,
+                        )
+                        break
+                    except OverloadedError:
+                        if attempt == 2:
+                            raise
+                        wait = 30 * (attempt + 1)
+                        print(f"API overloaded, retrying in {wait}s...", file=sys.stderr)
+                        time.sleep(wait)
 
                 # Append assistant response
                 messages.append({"role": "assistant", "content": response.content})
