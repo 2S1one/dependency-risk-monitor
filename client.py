@@ -3,7 +3,7 @@ import os
 import sys
 import time
 
-from anthropic import Anthropic, OverloadedError
+from anthropic import Anthropic, APIStatusError
 from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -78,8 +78,8 @@ async def run() -> int:
                             messages=messages,
                         )
                         break
-                    except OverloadedError:
-                        if attempt == 2:
+                    except APIStatusError as e:
+                        if e.status_code != 529 or attempt == 2:
                             raise
                         wait = 30 * (attempt + 1)
                         print(f"API overloaded, retrying in {wait}s...", file=sys.stderr)
