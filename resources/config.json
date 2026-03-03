@@ -1,6 +1,6 @@
 {
 "critical_repos": ["payments-service", "auth-service", "supply-chain-practice"],
-"severity_threshold": "HIGH",
+"severity_threshold": "CRITICAL",
 "max_age_days": 30
 }
 
