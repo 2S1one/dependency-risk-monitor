@@ -1,0 +1,8 @@
+[
+{
+    "purl": "pkg:pypi/cryptography@38.0.4",
+    "cve": "CVE-2023-49083",
+    "reason": "code_not_reachable",
+    "expires": "2026-06-01"
+}
+]
