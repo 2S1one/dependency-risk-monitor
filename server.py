@@ -125,6 +125,9 @@ async def check_vulnerabilities(dependencies: list[dict]) -> str:
                 }
             )
 
+    HIGH_SEVERITY = {"CRITICAL", "HIGH"}
+    results = [r for r in results if r["severity"] in HIGH_SEVERITY]
+
     return json.dumps(results, indent=2)
 
 
