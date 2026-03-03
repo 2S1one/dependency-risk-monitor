@@ -27,7 +27,7 @@ Check dependencies of repository {GITHUB_OWNER}/{GITHUB_REPO} (branch: {GITHUB_B
 """
 
 SERVER_PARAMS = StdioServerParameters(
-    command="python",
+    command=sys.executable,
     args=["server.py"],
     env={**os.environ},
 )

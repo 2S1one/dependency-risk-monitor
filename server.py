@@ -193,3 +193,7 @@ def _extract_fixed_version(vuln: dict) -> str:
                 if "fixed" in event:
                     return event["fixed"]
     return "unknown"
+
+
+if __name__ == "__main__":
+    mcp.run()
